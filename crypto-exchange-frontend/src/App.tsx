@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import UserList from './components/UserList'
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
+import Dashboard from './components/Dashboard'
+import useUserStore from './hooks/useAuthStore'
+import LoginForm from './components/LoginForm'
+import Logout from './components/Logout'
+import SignupForm from './components/SignupForm'
+
+const App = () => {
+
+  
+  const currentUser = useUserStore((state) => state.currentUser)
+
+  const padding = {
+    padding: 5
+  }
+
+  if (!currentUser) return (
+    <div>
+      <Router>
+        <div>
+          <Link style={padding} to="/login">login</Link>
+          <Link style={padding} to="/signup">sign up</Link>
+        </div>
+
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
+
+        </Routes>
+      </Router>
+
+    </div>
+  )
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <Router>
+        <div>
+          <Link style={padding} to="/">home</Link>
+          <Link style={padding} to="/users">users</Link>
+          <Link style={padding} to="/logout">logout</Link>
+        </div>
+
+        <Routes>
+          <Route path="/users" element={<UserList />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/logout" element={<Logout />} />
+
+        </Routes>
+      </Router>
+
+    </div>
   )
+
 }
 
 export default App
