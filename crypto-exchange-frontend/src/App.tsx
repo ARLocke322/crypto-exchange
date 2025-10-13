@@ -1,35 +1,41 @@
-import { useEffect, useState } from 'react'
-import userService from './services/users'
+
 import UserList from './components/UserList'
-import type { User } from './types'
 import {
   BrowserRouter as Router,
   Routes, Route, Link
 } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
-import useUserStore from './hooks/useUserStore'
+import useUserStore from './hooks/useAuthStore'
+import LoginForm from './components/LoginForm'
+import Logout from './components/Logout'
+import SignupForm from './components/SignupForm'
 
 const App = () => {
-  const [users, setUsers] = useState<Array<User>>([])
+
+  
   const currentUser = useUserStore((state) => state.currentUser)
 
   const padding = {
     padding: 5
   }
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const users = await userService.getAll()
-        setUsers(users)
-      } catch (err) {
-        console.error('Failed to load users:', err)
-      }
-    }
-    fetchUsers()
-  }, [])
+  if (!currentUser) return (
+    <div>
+      <Router>
+        <div>
+          <Link style={padding} to="/login">login</Link>
+          <Link style={padding} to="/signup">sign up</Link>
+        </div>
 
-  if (!currentUser) return <LoginForm />
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
+
+        </Routes>
+      </Router>
+
+    </div>
+  )
 
   return (
     <div>
@@ -41,12 +47,13 @@ const App = () => {
         </div>
 
         <Routes>
-          <Route path="/users" element={<UserList users={users} />} />
+          <Route path="/users" element={<UserList />} />
           <Route path="/" element={<Dashboard />} />
-          <Route path="/logout" element={<Dashboard />} />
+          <Route path="/logout" element={<Logout />} />
+
         </Routes>
       </Router>
-      
+
     </div>
   )
 
