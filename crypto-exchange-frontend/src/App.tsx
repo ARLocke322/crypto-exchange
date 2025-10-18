@@ -1,50 +1,69 @@
 
 import UserList from './components/UserList'
 import {
-  BrowserRouter as Router,
   Routes, Route, Link
 } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
-import useUserStore from './hooks/useAuthStore'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
 import SignupForm from './components/SignupForm'
+import useAuthStore from './hooks/useAuthStore'
+import Layout from './layout'
+
 
 const App = () => {
 
-  
-  const currentUser = useUserStore((state) => state.currentUser)
+
+  const currentUser = useAuthStore((state) => state.currentUser)
 
   const padding = {
     padding: 5
   }
 
+  /*
+    if (!currentUser) return (
+      <div className="flex w-full max-w-sm flex-col gap-6">
+        <Tabs defaultValue="login">
+          <TabsList>
+            <TabsTrigger value="login">Login</TabsTrigger>
+            <TabsTrigger value="signup">Signup</TabsTrigger>
+          </TabsList>
+          <TabsContent value="login">
+            <LoginForm />
+          </TabsContent>
+          <TabsContent value="signup">
+            <SignupForm />
+          </TabsContent>
+        </Tabs>
+      </div>
+  
+      <div>
+            <Link style={padding} to="/login">login</Link>
+            <Link style={padding} to="/signup">sign up</Link>
+          </div>
+    )
+    */
   if (!currentUser) return (
     <div>
-      <Router>
-        <div>
-          <Link style={padding} to="/login">login</Link>
-          <Link style={padding} to="/signup">sign up</Link>
-        </div>
 
-        <Routes>
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/signup" element={<SignupForm />} />
+      <Routes>
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SignupForm />} />
 
-        </Routes>
-      </Router>
+      </Routes>
+
 
     </div>
   )
 
+
+
+
+
   return (
     <div>
-      <Router>
-        <div>
-          <Link style={padding} to="/">home</Link>
-          <Link style={padding} to="/users">users</Link>
-          <Link style={padding} to="/logout">logout</Link>
-        </div>
+      <Layout>
 
         <Routes>
           <Route path="/users" element={<UserList />} />
@@ -52,8 +71,7 @@ const App = () => {
           <Route path="/logout" element={<Logout />} />
 
         </Routes>
-      </Router>
-
+      </Layout>
     </div>
   )
 
