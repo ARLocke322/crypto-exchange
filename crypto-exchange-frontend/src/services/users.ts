@@ -3,6 +3,7 @@ import type { User } from "../types";
 
 import { apiBaseUrl } from "../constants";
 import useAuthStore from "../hooks/useAuthStore";
+import usePortfolioStore from '@/hooks/usePortfolioStore';
 
 interface LoginData {
     user: {
@@ -44,6 +45,7 @@ const getById = async (id: number) => {
 const login = async (username: string, password: string) => {
   const { data } = await api.post<LoginData>('/login', { username, password });
   useAuthStore.getState().setAuth(data.user, data.token);
+  usePortfolioStore.getState().fetchPortfolio();
   return data;
 };
 

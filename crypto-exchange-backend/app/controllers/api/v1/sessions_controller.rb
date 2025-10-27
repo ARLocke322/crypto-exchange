@@ -9,7 +9,6 @@ class Api::V1::SessionsController < ::ApplicationController
 
   def create
     user = User.find_by(username: params[:username])
-    puts params
     if user&.authenticate(params[:password])
       session=Session.new({user_id: user.id})
       if session.save
@@ -18,7 +17,6 @@ class Api::V1::SessionsController < ::ApplicationController
             id: user.id,
             username: user.username,
             email: user.email
-            # add any other fields you want exposed to the frontend
           },
           token: session.token
         }, status: :created

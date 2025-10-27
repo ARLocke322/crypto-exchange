@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  wallet: one
+  cryptocurrency: one
+  transaction_type: MyString
+  crypto_amount: 9.99
+  price_per_unit: 9.99
+  usd_amount: 9.99
+
+two:
+  wallet: two
+  cryptocurrency: two
+  transaction_type: MyString
+  crypto_amount: 9.99
+  price_per_unit: 9.99
+  usd_amount: 9.99

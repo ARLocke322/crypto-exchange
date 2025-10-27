@@ -1,7 +1,9 @@
 
-import UserList from './components/UserList'
+import Portfolio from './components/Portfolio'
+import portfolioService from './services/portfolio'
+import cryptocurrencyService from './services/cryptocurrencies'
 import {
-  Routes, Route, Link
+  Routes, Route
 } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
 import LoginForm from './components/LoginForm'
@@ -9,6 +11,10 @@ import Logout from './components/Logout'
 import SignupForm from './components/SignupForm'
 import useAuthStore from './hooks/useAuthStore'
 import Layout from './layout'
+import Trade from './components/Trade'
+import { useEffect, useState } from 'react'
+import type { CryptocurrencyData, PortfolioData } from './types'
+import { Loading } from './components/Loading'
 
 
 const App = () => {
@@ -16,33 +22,34 @@ const App = () => {
 
   const currentUser = useAuthStore((state) => state.currentUser)
 
-  const padding = {
-    padding: 5
-  }
+  const [portfolio, setPortfolio] = useState<PortfolioData>()
+  const [cryptocurrencies, setCryptocurrencies] = useState<CryptocurrencyData[]>([])
 
-  /*
-    if (!currentUser) return (
-      <div className="flex w-full max-w-sm flex-col gap-6">
-        <Tabs defaultValue="login">
-          <TabsList>
-            <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="signup">Signup</TabsTrigger>
-          </TabsList>
-          <TabsContent value="login">
-            <LoginForm />
-          </TabsContent>
-          <TabsContent value="signup">
-            <SignupForm />
-          </TabsContent>
-        </Tabs>
-      </div>
-  
-      <div>
-            <Link style={padding} to="/login">login</Link>
-            <Link style={padding} to="/signup">sign up</Link>
-          </div>
-    )
-    */
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+      try {
+        const portfolio = await portfolioService.getPortfolio()
+        setPortfolio(portfolio)
+      } catch (err) {
+        console.error('Failed to load portfolio:', err)
+      }
+    }
+    const fetchCryptocurrencies = async () => {
+      try {
+        const cryptocurrencies = await cryptocurrencyService.getCryptocurrencies()
+        setCryptocurrencies(cryptocurrencies)
+      } catch (err) {
+        console.error('Failed to load cryptocurrencies:', err)
+      }
+    }
+    if (currentUser) {
+      fetchPortfolio()
+      fetchCryptocurrencies()
+    }
+
+  }, [currentUser])
+
+
   if (!currentUser) return (
     <div>
 
@@ -50,6 +57,7 @@ const App = () => {
         <Route path="/" element={<LoginForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/logout" element={<Logout />} />
 
       </Routes>
 
@@ -57,17 +65,16 @@ const App = () => {
     </div>
   )
 
-
-
-
+  if (!portfolio || cryptocurrencies.length === 0 ) return <Loading />
 
   return (
     <div>
       <Layout>
 
         <Routes>
-          <Route path="/users" element={<UserList />} />
+          <Route path="/portfolio" element={<Portfolio cryptocurrencies={cryptocurrencies}/>} />
           <Route path="/" element={<Dashboard />} />
+          <Route path="/trade" element={<Trade cryptocurrencies={cryptocurrencies} />} />
           <Route path="/logout" element={<Logout />} />
 
         </Routes>

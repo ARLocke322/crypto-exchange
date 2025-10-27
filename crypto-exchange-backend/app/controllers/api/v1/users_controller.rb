@@ -15,11 +15,16 @@ class Api::V1::UsersController < ::ApplicationController
 
   def create
     user=User.new(user_params)
-
-    if user.save
+    
+    begin
+      ActiveRecord::Base.transaction do
+        user.save!
+        wallet=Wallet.new(user_id: user.id, usd_amount: 10000)
+        wallet.save!
+      end
       render json: user, status: :created
-    else 
-      render json: user.errors, status: :unprocessable_entity
+    rescue ActiveRecord::RecordInvalid => e
+      render json: {error: e.message}, status: :unprocessable_entity
     end
   end
 
