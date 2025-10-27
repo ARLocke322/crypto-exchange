@@ -20,7 +20,7 @@ const items = [
   },
   {
     title: "Portfolio",
-    url: "/users",
+    url: "/portfolio",
     icon: BriefcaseBusiness,
   },
   {
@@ -30,7 +30,7 @@ const items = [
   },
   {
     title: "Trade",
-    url: "#",
+    url: "/trade",
     icon: ChartCandlestick,
   },
   {
@@ -62,7 +62,7 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
