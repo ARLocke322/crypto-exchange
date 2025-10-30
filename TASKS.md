@@ -24,7 +24,7 @@ Frontend - Setup & Authentication:
 Backend - Database Schema
 - [ ] Create wallets migration
 Backend - Models & Associations
-= [ ] Create wallets model
+- [ ] Create wallets model
 Backend - Seed Data
 Backend - API Endpoints
 Backend - Background Jobs

@@ -1,5 +1,5 @@
 class Cryptocurrency < ApplicationRecord
-  has_one :cryptocurrency_price, dependent: :destroy
+  has_many :cryptocurrency_prices, dependent: :destroy
   has_many :cryptocurrency_holdings, dependent: :destroy 
   has_many :cryptocurrency_transactions, dependent: :destroy
 
@@ -10,4 +10,6 @@ class Cryptocurrency < ApplicationRecord
   validates :abbreviation, presence: true, 
     uniqueness: true,
     length: { minimum: 2, maximum: 5 }
+
+  validates :image, format: { with: URI::regexp(%w[http https]) }
 end
