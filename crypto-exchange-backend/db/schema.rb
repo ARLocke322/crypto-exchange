@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_20_162733) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_29_113933) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "cryptocurrencies", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
+    t.string "image"
   end
 
   create_table "cryptocurrency_holdings", force: :cascade do |t|
@@ -34,6 +35,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_20_162733) do
     t.decimal "price_usd"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "market_cap_usd", precision: 20, scale: 2
+    t.decimal "total_volume_usd", precision: 20, scale: 2
+    t.index ["cryptocurrency_id", "created_at"], name: "idx_on_cryptocurrency_id_created_at_ce2b5a11f8", order: { created_at: :desc }
     t.index ["cryptocurrency_id"], name: "index_cryptocurrency_prices_on_cryptocurrency_id"
   end
 

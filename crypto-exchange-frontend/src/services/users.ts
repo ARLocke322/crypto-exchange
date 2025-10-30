@@ -4,6 +4,7 @@ import type { User } from "../types";
 import { apiBaseUrl } from "../constants";
 import useAuthStore from "../hooks/useAuthStore";
 import usePortfolioStore from '@/hooks/usePortfolioStore';
+import useTransactionsStore from '@/hooks/useTransactionsStore';
 
 interface LoginData {
     user: {
@@ -46,6 +47,7 @@ const login = async (username: string, password: string) => {
   const { data } = await api.post<LoginData>('/login', { username, password });
   useAuthStore.getState().setAuth(data.user, data.token);
   usePortfolioStore.getState().fetchPortfolio();
+  useTransactionsStore.getState().fetchTransactions();
   return data;
 };
 

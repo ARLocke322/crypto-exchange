@@ -8,7 +8,7 @@ class Api::V1::TradesController < ::ApplicationController
     # render json showing the transaction info 
     @wallet = current_user.wallet.lock!
 
-    @cryptocurrency_price = CryptocurrencyPrice.find_by(cryptocurrency_id: trade_params[:cryptocurrency_id])
+    @cryptocurrency_price = CryptocurrencyPrice.where(cryptocurrency_id: trade_params[:cryptocurrency_id]).order(created_at: :desc).first
     @cryptocurrency_holding = CryptocurrencyHolding.find_or_create_by( 
         wallet_id: @wallet.id, cryptocurrency_id: trade_params[:cryptocurrency_id]
       )

@@ -39,8 +39,8 @@ const items = [
     icon: Wallet,
   },
   {
-    title: "History",
-    url: "#",
+    title: "Transactions",
+    url: "/transactions",
     icon: History,
   },
   {
