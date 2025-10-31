@@ -25,7 +25,7 @@ const items = [
   },
   {
     title: "Markets",
-    url: "#",
+    url: "/cryptocurrency",
     icon: Activity,
   },
   {

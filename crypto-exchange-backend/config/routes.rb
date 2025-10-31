@@ -7,7 +7,9 @@ Rails.application.routes.draw do
 
       resources :trades, only: :create
       resources :portfolio, only: :index
-      resources :cryptocurrencies, only: [:index, :show]
+      resources :cryptocurrencies, only: [:index, :show] do
+        get 'chart', to: 'cryptocurrency_charts#show'
+      end
       resources :transactions, only: :index
     end 
   end

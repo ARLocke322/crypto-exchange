@@ -16,7 +16,7 @@ import TransactionsHistory from './components/TransactionsHistory'
 import { useEffect, useState } from 'react'
 import type { CryptocurrencyData, PortfolioData } from './types'
 import { Loading } from './components/Loading'
-
+import CryptocurrencyDetail from './components/CryptocurrencyDetail'
 
 const App = () => {
 
@@ -79,6 +79,7 @@ const App = () => {
           <Route path="/trade" element={<TradeContainer cryptocurrencies={cryptocurrencies} onSuccess={() => navigate('/portfolio')} />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/transactions" element={<TransactionsHistory />} />
+          <Route path="/cryptocurrency" element={<CryptocurrencyDetail cryptocurrency={cryptocurrencies[0]} />} />
         </Routes>
       </Layout>
     </div>

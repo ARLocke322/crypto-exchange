@@ -15,7 +15,8 @@ class Api::V1::TransactionsController < ::ApplicationController
         cryptocurrency: {
           id: transaction.cryptocurrency.id,
           name: transaction.cryptocurrency.name,
-          abbreviation: transaction.cryptocurrency.abbreviation
+          abbreviation: transaction.cryptocurrency.abbreviation,
+          image: transaction.cryptocurrency.image
         },
         created_at: transaction.created_at
       }

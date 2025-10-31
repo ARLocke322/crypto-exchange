@@ -12,13 +12,15 @@ class Api::V1::CryptocurrenciesController < ::ApplicationController
 
   private
     def format_cryptocurrency(cryptocurrency)
-      latest_price = cryptocurrency.cryptocurrency_prices.sort_by(&:created_at).last
+      latest_info = cryptocurrency.cryptocurrency_prices.sort_by(&:created_at).last
       {
         id: cryptocurrency.id,
         name: cryptocurrency.name,
         abbreviation: cryptocurrency.abbreviation,
         image: cryptocurrency.image,
-        price_usd: latest_price&.price_usd
+        price_usd: latest_info&.price_usd,
+        market_cap_usd: latest_info&.market_cap_usd,
+        total_volume_usd: latest_info&.total_volume_usd
       }
     end
 end
