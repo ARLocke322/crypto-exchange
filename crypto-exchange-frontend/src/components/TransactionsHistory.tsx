@@ -11,6 +11,7 @@ import {
 import { Card } from "./ui/card"
 import useTransactionsStore from "@/hooks/useTransactionsStore"
 import { Loading } from "./Loading"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 const TransactionsHistory = () => {
     const transactions = useTransactionsStore((state) => state.currentTransactions)
@@ -27,6 +28,7 @@ const TransactionsHistory = () => {
                         <TableCaption>Your Transaction History.</TableCaption>
                         <TableHeader>
                             <TableRow>
+                                <TableHead className="text-left"></TableHead>
                                 <TableHead className="w-[100px] text-muted-foreground">Transaction Type</TableHead>
                                 <TableHead className="w-[100px] text-muted-foreground">Cryptocurrency</TableHead>
                                 <TableHead className="w-[100px] text-muted-foreground">Date</TableHead>
@@ -39,8 +41,14 @@ const TransactionsHistory = () => {
                         <TableBody>
                             {sortedTransactions.map((transaction) => (
                                 <TableRow key={transaction.id}>
-                                    <TableCell className="font-medium">{transaction.transaction_type}</TableCell>
-                                    <TableCell className="font-medium">{transaction.cryptocurrency.abbreviation}</TableCell>
+                                    <TableCell >
+                                        <Avatar>
+                                            <AvatarImage src={transaction.cryptocurrency.image} />
+                                            <AvatarFallback></AvatarFallback>
+                                        </Avatar>
+                                    </TableCell>
+                                    <TableCell className="font-medium">{transaction.transaction_type.toUpperCase()}</TableCell>
+                                    <TableCell className="font-medium">{transaction.cryptocurrency.abbreviation.toUpperCase()}</TableCell>
                                     <TableCell className="font-medium">{new Date(transaction.created_at).toLocaleDateString('en-CA')}</TableCell>
                                     <TableCell className="text-right">{transaction.crypto_amount}</TableCell>
                                     <TableCell className="text-right">${transaction.usd_amount}</TableCell>

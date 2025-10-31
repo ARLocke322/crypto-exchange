@@ -1,12 +1,13 @@
 class Api::V1::SessionsController < ::ApplicationController
+  # Allow unauthenticated user to login 
   skip_before_action :authenticate_user!, only: [:create, :destroy], :raise => false
 
-  def index
-    sessions=Session.all
-
-    render json: sessions, status: :ok
-  end
-
+  # POST /api/v1/login
+  # Verifies username and password hash matches db 
+  # Creates a new session and JWT token
+  # Returns 201 Created on success, returns token to user 
+  # 422 Unprocessable Entity on validation error
+  # 401 Unauthorized if credentials do not match
   def create
     user = User.find_by(username: params[:username])
     if user&.authenticate(params[:password])
@@ -28,6 +29,9 @@ class Api::V1::SessionsController < ::ApplicationController
     end
   end
 
+  # DELETE /api/v1/logout
+  # Deletes the user's current session
+  # Returns 200 OK on success
   def destroy
     if current_session
       current_session.update!(revoked_at: Time.current)
@@ -38,6 +42,7 @@ class Api::V1::SessionsController < ::ApplicationController
 
 
   private 
+    # Whitelists username and password attributes
     def session_params
       params.require(:session).permit(:username, :password)
     end

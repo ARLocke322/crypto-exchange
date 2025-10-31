@@ -9,8 +9,15 @@ const getCryptocurrencies = async () => {
     return data;
 };
 
+const getChart = async (cryptocurrency_id: number, period: string) => {
+    const { data } = await api.get<ChartData>(
+        `${apiBaseUrl}/cryptocurrencies/${cryptocurrency_id}/chart?period=${period}`
+    );
+    return data;
+}
+
 
 export default {
-    getCryptocurrencies
+    getCryptocurrencies, getChart
 };
 
