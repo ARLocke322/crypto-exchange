@@ -1,5 +1,8 @@
 class Api::V1::PortfolioController < ::ApplicationController
 
+  # GET /api/v1/portfolio
+  # Returns the user's cryptocurrency holdings + cryptocurrency specific data 
+  # Returns 200 OK on success
   def index
     wallet = current_user.wallet
 
@@ -17,6 +20,9 @@ class Api::V1::PortfolioController < ::ApplicationController
   end
 
   private 
+    # Formats the holding record including the cryptocurrency information
+    # Calls the calculateValueChange method 
+    # Returns the JSON formatted holding
     def format_holding(holding)
       current_price_usd = holding.cryptocurrency.cryptocurrency_prices.sort_by(&:created_at).last.price_usd
       {
@@ -33,6 +39,8 @@ class Api::V1::PortfolioController < ::ApplicationController
       }
     end
 
+    # Calculates the percentage change in value of the holding since purchase
+    # Returns percentage change = ( current value / total purchase value) 
     def calculateValueChange(holding, current_price_usd)
       transactions = @cryptocurrency_transactions.select { |t| t.cryptocurrency_id == holding.cryptocurrency_id }
       cost_basis = transactions.sum { |t| t.transaction_type == 'buy' ? t.usd_amount : -t.usd_amount }

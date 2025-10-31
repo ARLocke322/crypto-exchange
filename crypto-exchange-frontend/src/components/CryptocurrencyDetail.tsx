@@ -1,8 +1,5 @@
 import {
   Card,
-  CardContent,
-  CardHeader,
-  CardTitle
 } from "./ui/card"
 import {
   Tabs,
@@ -11,10 +8,10 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import cryptocurrencyService from '../services/cryptocurrencies'
-import type { PricePoint, CryptocurrencyData, ChartData } from "@/types"
+import type { CryptocurrencyData, ChartData } from "@/types"
 import { useState } from "react"
 import CryptocurrencyGraph from "./CryptocurrencyGraph"
-import { Equal, TrendingDown, TrendingUp, AppWindowIcon, CodeIcon } from "lucide-react"
+import { Equal, TrendingDown, TrendingUp, } from "lucide-react"
 import { Loading } from "./Loading"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import { AvatarFallback } from "@radix-ui/react-avatar"

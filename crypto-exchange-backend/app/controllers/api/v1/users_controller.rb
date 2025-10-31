@@ -8,7 +8,7 @@ class Api::V1::UsersController < ::ApplicationController
   # Returns 201 Created on sucess, 422 Unprocessable Entity on validation failure 
   def create
     user=User.new(user_params)
-    
+
     begin
       ActiveRecord::Base.transaction do
         user.save!

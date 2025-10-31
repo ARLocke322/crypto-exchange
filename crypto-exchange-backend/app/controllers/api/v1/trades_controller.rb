@@ -1,11 +1,10 @@
 class Api::V1::TradesController < ::ApplicationController
 
+  # POST /api/v1/trades
+  # Finds user's wallet and existing holdings from params
+  # Calls the create_transaction_record method to create a transaction
+  # Calls the process_buy/sell method depending on user's request
   def create
-    # check wallet belongs to auth token user -> except error
-    # check wallet balances -> except error
-    # create new cryptocurrency_transaction and update cryptocurrency_holding record
-    # save records
-    # render json showing the transaction info 
     @wallet = current_user.wallet.lock!
 
     @cryptocurrency_price = CryptocurrencyPrice.where(cryptocurrency_id: trade_params[:cryptocurrency_id]).order(created_at: :desc).first
@@ -19,6 +18,11 @@ class Api::V1::TradesController < ::ApplicationController
   end
 
   private 
+    # Updates user's wallet, holdings, and saves the transaction
+    # Returns error if user does not have enough balance
+    # Uses transaction to ensure both holding, transaction, and wallet save
+    # Returns the JSON formatted transaction with status 200 :OK
+    # Otherwise returns status 422 Unprocessable Entity on validation failure
     def process_buy
       return render json: {error: 'Insufficient wallet balance'} \
         if trade_params[:crypto_amount]*@cryptocurrency_price.price_usd > @wallet.usd_amount
@@ -46,6 +50,7 @@ class Api::V1::TradesController < ::ApplicationController
       end
     end
 
+    # Same as process_buy, just performs validations for selling instead
     def process_sell
       return render json: { error: 'Insufficient crypto balance' }  \
         if trade_params[:crypto_amount] > @cryptocurrency_holding.amount
@@ -69,6 +74,7 @@ class Api::V1::TradesController < ::ApplicationController
       end
     end
 
+    # Creates the transaction record from the request params
     def create_transaction_record
       @cryptocurrency_transaction = CryptocurrencyTransaction.new(
         wallet: @wallet, 
@@ -80,6 +86,7 @@ class Api::V1::TradesController < ::ApplicationController
       )
     end
 
+    # Whitelists the request params
     def trade_params
       params.require(:trade).permit(:wallet_id, :transaction_type, :cryptocurrency_id, :crypto_amount)
     end
