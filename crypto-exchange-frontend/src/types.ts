@@ -51,3 +51,13 @@ export interface TransactionData {
     cryptocurrency: TransactionCryptocurrency
     created_at: Date
 }
+
+export interface PricePoint {
+    timestamp: Date
+    price_usd: number
+}
+
+export interface ChartData {
+    price_change: number
+    price_history: PricePoint[]
+}

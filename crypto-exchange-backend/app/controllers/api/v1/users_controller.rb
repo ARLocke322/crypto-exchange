@@ -1,21 +1,14 @@
 class Api::V1::UsersController < ::ApplicationController
+  # Allows unauthenticated user to login/signup
   skip_before_action :authenticate_user!, only: [:create], :raise => false
 
-  def index
-    users=User.all
-
-    render json: users, status: :ok
-  end
-
-  def show
-    user=User.find(params[:id])
-
-    render json: user, status: :ok
-  end
-
+  # POST /api/v1/users
+  # Creates a new user with an initial wallet containing $10,000 
+  # Uses transaction to ensure both are created
+  # Returns 201 Created on sucess, 422 Unprocessable Entity on validation failure 
   def create
     user=User.new(user_params)
-    
+
     begin
       ActiveRecord::Base.transaction do
         user.save!
@@ -28,6 +21,9 @@ class Api::V1::UsersController < ::ApplicationController
     end
   end
 
+  # PUT /api/v1/users/:id
+  # Updates existing user's attributes
+  # Returns 200 OK on success, 422 Unproccessable Entity on validation failure
   def update
     user = User.find(params[:id])
 
@@ -38,6 +34,9 @@ class Api::V1::UsersController < ::ApplicationController
     end
   end
 
+  # DELETE /api/v1/users/:id
+  # Deletes user from the system
+  # Returns 204 No Content on success
   def destroy
     user = User.find(params[:id])
 
@@ -46,6 +45,7 @@ class Api::V1::UsersController < ::ApplicationController
   end
 
   private 
+    # Whitelists email, username, and password attributes
     def user_params
       params.require(:user).permit(:email, :username, :password)
     end
