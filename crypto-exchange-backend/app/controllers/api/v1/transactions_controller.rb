@@ -1,10 +1,15 @@
 class Api::V1::TransactionsController < ::ApplicationController
+  # GET /api/v1/transactions
+  # Returns a formatted list of all of the user's past transactions
+  # Returns 200 OK on success
   def index
     transactions = current_user.wallet.cryptocurrency_transactions.includes(:cryptocurrency)
     render json: transactions.map{|transaction| formatTransaction(transaction)}, status: :ok
   end
 
   private
+    # Formats a transaction record to include cryptocurrency information  
+    # Returns the formatted transaction
     def formatTransaction(transaction)
       {
         id: transaction.id,

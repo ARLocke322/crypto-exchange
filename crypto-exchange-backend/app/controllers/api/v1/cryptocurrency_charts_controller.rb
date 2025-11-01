@@ -1,6 +1,10 @@
 class Api::V1::CryptocurrencyChartsController < ::ApplicationController
-  skip_before_action :authenticate_user!, only: [:show], :raise => false
 
+  # GET /api/v1/cryptocurrencies/:id/chart
+  # Takes a time period parameter
+  # Fetches the price data for the interval provided
+  # Returns the price change and data for the time period
+  # Returns 200 OK on success, 402 Bad Request if the period is invalid
   def show
     @cryptocurrency_prices = CryptocurrencyPrice.where(cryptocurrency_id: params[:cryptocurrency_id]).order(created_at: :asc)
 
@@ -29,6 +33,9 @@ class Api::V1::CryptocurrencyChartsController < ::ApplicationController
   end
   private
 
+    # Fetches the price data for the interval, only selecting certain RecordInvalid
+    # e.g. 1 record every 15 minute interval
+    # Returns the fetched chart data
     def getPriceData(interval, start_time)
       end_time = Time.current.midnight
       chart_data = []
