@@ -8,6 +8,6 @@ one:
 
 two:
   user: two
-  token: MyString
+  token: MyString2
   expires_at: 2025-10-13 05:46:59
   revoked_at: 2025-10-13 05:46:59

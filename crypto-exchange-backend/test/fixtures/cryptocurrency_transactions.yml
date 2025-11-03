@@ -3,7 +3,7 @@
 one:
   wallet: one
   cryptocurrency: one
-  transaction_type: MyString
+  transaction_type: "buy"
   crypto_amount: 9.99
   price_per_unit: 9.99
   usd_amount: 9.99
@@ -11,7 +11,7 @@ one:
 two:
   wallet: two
   cryptocurrency: two
-  transaction_type: MyString
+  transaction_type: "buy"
   crypto_amount: 9.99
   price_per_unit: 9.99
   usd_amount: 9.99

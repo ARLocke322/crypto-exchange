@@ -5,7 +5,7 @@ import cryptocurrencyService from './services/cryptocurrencies'
 import {
   Routes, Route, useNavigate
 } from 'react-router-dom'
-import Dashboard from './components/Dashboard'
+import Dashboard from './components/Dashboard2'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
 import SignupForm from './components/SignupForm'
@@ -75,10 +75,10 @@ const App = () => {
 
         <Routes>
           <Route path="/portfolio" element={<Portfolio cryptocurrencies={cryptocurrencies} />} />
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard cryptocurrencies={cryptocurrencies} />} />
           <Route path="/trade" element={<TradeContainer cryptocurrencies={cryptocurrencies} onSuccess={() => navigate('/portfolio')} />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/transactions" element={<TransactionsHistory />} />
+          <Route path="/transactions" element={<TransactionsHistory cryptocurrency={null} count={0} />} />
           <Route path="/cryptocurrency" element={<CryptocurrencyDetail cryptocurrency={cryptocurrencies[0]} />} />
         </Routes>
       </Layout>

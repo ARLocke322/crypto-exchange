@@ -1,3 +1,4 @@
+
 import {
   Card,
 } from "./ui/card"
@@ -17,6 +18,7 @@ import { Avatar, AvatarImage } from "./ui/avatar"
 import { AvatarFallback } from "@radix-ui/react-avatar"
 import { Button } from "./ui/button"
 import { formatPrice } from "../utils/formatPrice"
+import TransactionsHistory from "./TransactionsHistory"
 const CryptocurrencyDetail = ({ cryptocurrency }: { cryptocurrency: CryptocurrencyData }) => {
   const [chartData, setChartData] = useState<ChartData>()
   const fetchGraphDataPoints = async (period: string) => {
@@ -40,7 +42,7 @@ const CryptocurrencyDetail = ({ cryptocurrency }: { cryptocurrency: Cryptocurren
       return <span className="flex items-center gap-1 text-gray-500"><Equal />{percentageChange}%</span>
     }
   }
-
+  console.log(chartData)
   return (
 
 
@@ -72,6 +74,7 @@ const CryptocurrencyDetail = ({ cryptocurrency }: { cryptocurrency: Cryptocurren
           <CryptocurrencyGraph pricePoints={chartData.price_history} />
         </TabsContent>
       </Tabs>
+      <TransactionsHistory cryptocurrency={cryptocurrency} count={5} />
       <Card className="flex flex-row items-center gap-2 p-1">
         <Button size="sm" className="flex-1">Trade</Button>
       </Card>

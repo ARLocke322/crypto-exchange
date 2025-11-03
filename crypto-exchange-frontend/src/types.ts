@@ -1,63 +1,65 @@
 
 export interface User {
-    email: string
-    username: string
+  email: string
+  username: string
 }
 
 export interface Holding {
+  id: number
+  crypto_amount: number
+  cryptocurrency: {
     id: number
-    crypto_amount: number
-    cryptocurrency: {
-        id: number
-        name: string
-        abbreviation: string
-        image: string
-        current_price_usd: number
-        value_percentage_change: number
+    name: string
+    abbreviation: string
+    image: string
+    current_price_usd: number
+    value_percentage_change: number
 
-    }
+  }
 }
 
 export interface PortfolioData {
-    wallet: {
-        id: number
-        usd_amount: number
-    }
-    holdings: Holding[]
+  wallet: {
+    id: number
+    usd_amount: number
+  }
+  holdings: Holding[]
 }
 
 
 export interface CryptocurrencyData {
-    id: number
-    name: string
-    abbreviation: string
-    image: string
-    price_usd: number
+  id: number
+  name: string
+  abbreviation: string
+  image: string
+  price_usd: number
+  market_cap_usd: number
+  total_volume_usd: number
 }
 
 interface TransactionCryptocurrency {
-    id: number
-    name: string
-    abbreviation: string
-    image: string
+  id: number
+  name: string
+  abbreviation: string
+  image: string
 }
 
 export interface TransactionData {
-    id: number
-    transaction_type: string
-    crypto_amount: number
-    price_per_unit: number
-    usd_amount: number
-    cryptocurrency: TransactionCryptocurrency
-    created_at: Date
+  id: number
+  transaction_type: string
+  crypto_amount: number
+  price_per_unit: number
+  usd_amount: number
+  cryptocurrency: TransactionCryptocurrency
+  created_at: Date
 }
 
 export interface PricePoint {
-    timestamp: Date
-    price_usd: number
+  timestamp: Date
+  price_usd: number
 }
 
 export interface ChartData {
-    price_change: number
-    price_history: PricePoint[]
+  price_change: number
+  price_history: PricePoint[]
 }
